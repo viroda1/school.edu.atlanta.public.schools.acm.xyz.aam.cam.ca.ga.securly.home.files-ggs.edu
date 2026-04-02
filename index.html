@@ -9,13 +9,15 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #2e0854, #8a2be2, #4b0082);
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: #ffffff;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         /* Container card */
@@ -27,8 +29,8 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            max-width: 500px;
+            width: 100%;
         }
 
         h1 {
@@ -37,17 +39,48 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            margin-bottom: 1.5rem;
         }
 
         #status {
             font-size: 0.9rem;
-            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
             color: #dda0dd;
+        }
+
+        /* The dynamic button container */
+        #button-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Styling for the generated buttons */
+        .unblocker-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .unblocker-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .unblocker-btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -55,14 +88,18 @@
 
     <div class="container">
         <h1>VIROS UNBLOCKER</h1>
-        <p>Fetching files and loading network proxies...</p>
         <div id="status">Status: Initializing request...</div>
+        
+        <!-- This is where the JS will inject your buttons -->
+        <div id="button-list"></div>
     </div>
 
     <script>
-        // Fetching the unblockers JSON data from the GitHub repository
-        const jsonUrl = "https://raw.githubusercontent.com/viroda1/school.edu.atlanta.public.schools.acm.xyz.aam.cam.ca.ga.securly.home.files-ggs.edu/refs/heads/main/unblovkers.json";
+        // Your raw GitHub JSON URL
+        const jsonUrl = "https://githubusercontent.com";
+        
         const statusDiv = document.getElementById('status');
+        const buttonListDiv = document.getElementById('button-list');
 
         fetch(jsonUrl)
             .then(response => {
@@ -72,14 +109,38 @@
                 return response.json();
             })
             .then(data => {
-                console.log('Successfully loaded unblockers:', data);
-                statusDiv.textContent = "Status: Successfully connected to repository!";
-                // You can map and display your JSON array data here
+                // Assuming your JSON contains an array of objects
+                if (Array.isArray(data)) {
+                    statusDiv.textContent = `Successfully loaded ${data.length} unblockers!`;
+                    statusDiv.style.color = "#a3e635"; // Green success text
+                    
+                    // Loop through each item in your JSON file
+                    data.forEach(item => {
+                        // Create a link element styled as a button
+                        const btn = document.createElement('a');
+                        btn.className = 'unblocker-btn';
+                        
+                        // Set the destination URL from the JSON "link" property
+                        btn.href = item.link;
+                        
+                        // Open in a new tab so users don't lose your dashboard
+                        btn.target = "_blank"; 
+                        
+                        // Set the text from the JSON "name" property
+                        btn.textContent = item.name || "Unnamed Link";
+                        
+                        // Append the button to the list
+                        buttonListDiv.appendChild(btn);
+                    });
+                } else {
+                    // Fallback if the JSON isn't an array but a single object
+                    statusDiv.textContent = "Data loaded, but it's not a list format.";
+                }
             })
             .catch(error => {
                 console.error('Error fetching the data:', error);
-                statusDiv.textContent = "Status: Failed to load (Link might be private or broken)";
-                statusDiv.style.color = "#ff6b6b";
+                statusDiv.textContent = "Failed to load (Link might be private or broken)";
+                statusDiv.style.color = "#ff6b6b"; // Red error text
             });
     </script>
 
