@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIROS UNBLOCKER</title>
     <style>
-        /* Base styles and purple gradient background */
+        /* Darker, deeper gradient background */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2e0854, #8a2be2, #4b0082);
+            background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             margin: 0;
             display: flex;
@@ -20,67 +20,62 @@
             box-sizing: border-box;
         }
 
-        /* Container card */
+        /* Container with a darker "Glass" effect */
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
             padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
         }
 
         h1 {
             margin-top: 0;
-            font-size: 2rem;
-            letter-spacing: 2px;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom, #fff, #bbb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
         }
 
         #status {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            color: #dda0dd;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* The dynamic button container */
         #button-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
-        /* Styling for the generated buttons */
+        /* Dark themed buttons */
         .unblocker-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            color: #eee;
             text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
         }
 
         .unblocker-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .unblocker-btn:active {
-            transform: translateY(0);
+            background: rgba(138, 43, 226, 0.2); /* Subtle purple glow on hover */
+            border-color: #8a2be2;
+            transform: scale(1.02);
+            color: #fff;
         }
     </style>
 </head>
@@ -88,60 +83,30 @@
 
     <div class="container">
         <h1>VIROS UNBLOCKER</h1>
-        <div id="status">Status: Initializing request...</div>
-        
-        <!-- This is where the JS will inject your buttons -->
+        <div id="status">System Online</div>
         <div id="button-list"></div>
     </div>
 
     <script>
-        // Your raw GitHub JSON URL
-        const jsonUrl = "https://githubusercontent.com";
-        
-        const statusDiv = document.getElementById('status');
-        const buttonListDiv = document.getElementById('button-list');
+        // ADD NEW LINKS HERE: Just copy/paste a block and change the name/link
+        const links = [
+          {
+            "name": "HENRYBASS",
+            "link": "https://github.io"
+          }
+        ];
 
-        fetch(jsonUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Assuming your JSON contains an array of objects
-                if (Array.isArray(data)) {
-                    statusDiv.textContent = `Successfully loaded ${data.length} unblockers!`;
-                    statusDiv.style.color = "#a3e635"; // Green success text
-                    
-                    // Loop through each item in your JSON file
-                    data.forEach(item => {
-                        // Create a link element styled as a button
-                        const btn = document.createElement('a');
-                        btn.className = 'unblocker-btn';
-                        
-                        // Set the destination URL from the JSON "link" property
-                        btn.href = item.link;
-                        
-                        // Open in a new tab so users don't lose your dashboard
-                        btn.target = "_blank"; 
-                        
-                        // Set the text from the JSON "name" property
-                        btn.textContent = item.name || "Unnamed Link";
-                        
-                        // Append the button to the list
-                        buttonListDiv.appendChild(btn);
-                    });
-                } else {
-                    // Fallback if the JSON isn't an array but a single object
-                    statusDiv.textContent = "Data loaded, but it's not a list format.";
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching the data:', error);
-                statusDiv.textContent = "Failed to load (Link might be private or broken)";
-                statusDiv.style.color = "#ff6b6b"; // Red error text
-            });
+        const buttonList = document.getElementById('button-list');
+
+        // Draw buttons immediately from the list above
+        links.forEach(item => {
+            const btn = document.createElement('a');
+            btn.className = 'unblocker-btn';
+            btn.href = item.link;
+            btn.target = "_blank"; 
+            btn.textContent = item.name;
+            buttonList.appendChild(btn);
+        });
     </script>
 
 </body>
