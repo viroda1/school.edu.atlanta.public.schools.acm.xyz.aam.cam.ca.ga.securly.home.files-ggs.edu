@@ -1,6 +1,14 @@
-{
-  "name": "HENRYBASS",
-  "link": "https://henrybass.github.io/unblocker/",
-  "icon": "globe",
-  "description": "old fashioned unblocker. has heart"
-}
+[
+  {
+    "name": "HENRYBASS",
+    "link": "https://henrybass.github.io/unblocker/",
+    "icon": "globe",
+    "description": "old fashioned unblocker. has heart"
+  },
+  {
+    "name": "DAYDREAM X",
+    "link": "https://vcsa.ddx.apertura.com/",
+    "icon": "hand",
+    "description": "A proxy that is pretty sick to use."
+  }
+]
