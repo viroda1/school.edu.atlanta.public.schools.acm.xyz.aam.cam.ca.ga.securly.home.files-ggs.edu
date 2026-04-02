@@ -1,54 +1,87 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Site Unblocker</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIROS UNBLOCKER</title>
+    <style>
+        /* Base styles and purple gradient background */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2e0854, #8a2be2, #4b0082);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+        }
 
-  <body>
-    <h1>Site Unblocker</h1>
-    <input type="text" id="link" value="">
-    <button type="button"; onclick = "update()">Update Link</button>
-    <br>
-    <input type="checkbox" id="proxy">
-    <label for = "proxy"> Don't use proxy (Required for firewalls, may fix problems)</label><br>
+        /* Container card */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
 
-    <input type="checkbox" id="exploit">
-    <label for = "exploit"> Don't use exploit (If search is flagged)</label><br>
-    <br><br><br>
-    <a href="#" ID="go">Unblocked Link</a><br>
-    <br><br>
-    <h2>About</h2>
-    <p>Unblocks most sites. Static sites and articles work best. Some sites break with the proxy, but this is the most unblocked you can get.<br>Just paste a url into the box, and update the link. Click "Unblocked Link" to get an unblocked version.<br>This site uses Google Translate as a proxy to access blocked sites, as the first layer.<br>Then, as the second layer it exploits a feature of Securly, tricking it into thinking we're visiting a suicide prevention website. 
-     <br>There's a failsafe for this, and it allowes us through. <br>
-    If you get an error, try again later or use a different site. It may just be that the site has too much JS/CSS.<br> Tested on Securly so far. Not every site works with this. Also, if you get flagged for suicide, (Unlikely), check "No exploit".<br><br>Message me with questions on discord: Henry21#6630</p>
-    <br><br>
-    
-    <h2>Want a list of working unblocked sites?</h2>
-    <a href="wiki.html">The Unblocked Wiki</a>
-    <h2>Henry Bass, 2021</h2>
-    <p>Tips (Doge) DJk2DqRE2B5FT9N9U85n5Ud9WETPRJa1yj<br>Thanks!
-    </p>
-  </body>
-  <script>
-    function update() {
-      var link = document.getElementById("link").value;
-      var noproxy = document.getElementById("proxy").checked;
-      var noexploit = document.getElementById("exploit").checked;
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-      if (noproxy == false) {
-        link = "http://translate.google.com/translate?sl=en&tl=en&u=" + link
-      } else if (link.indexOf("https://www.") <= 0) {
-        link = "https://www." + link
-      }
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
 
-      if (noexploit == false) {
-      link = link + "?suicidepreventionlifeline.org";
-      }
+        #status {
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            color: #dda0dd;
+        }
+    </style>
+</head>
+<body>
 
-      document.getElementById("go").href = link;
-    }
-  </script>
+    <div class="container">
+        <h1>VIROS UNBLOCKER</h1>
+        <p>Fetching files and loading network proxies...</p>
+        <div id="status">Status: Initializing request...</div>
+    </div>
+
+    <script>
+        // Fetching the unblockers JSON data from the GitHub repository
+        const jsonUrl = "https://raw.githubusercontent.com/viroda1/school.edu.atlanta.public.schools.acm.xyz.aam.cam.ca.ga.securly.home.files-ggs.edu/refs/heads/main/unblovkers.json";
+        const statusDiv = document.getElementById('status');
+
+        fetch(jsonUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Successfully loaded unblockers:', data);
+                statusDiv.textContent = "Status: Successfully connected to repository!";
+                // You can map and display your JSON array data here
+            })
+            .catch(error => {
+                console.error('Error fetching the data:', error);
+                statusDiv.textContent = "Status: Failed to load (Link might be private or broken)";
+                statusDiv.style.color = "#ff6b6b";
+            });
+    </script>
+
+</body>
 </html>
